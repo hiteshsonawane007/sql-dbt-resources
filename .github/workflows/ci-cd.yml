@@ -1,0 +1,45 @@
+name: DBT CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  dbt-run:
+    runs-on: ubuntu-latest
+    env:
+      REDSHIFT_HOST: ${{ secrets.REDSHIFT_HOST }}
+      REDSHIFT_USER: ${{ secrets.REDSHIFT_USER }}
+      REDSHIFT_PASSWORD: ${{ secrets.REDSHIFT_PASSWORD }}
+      REDSHIFT_DB: ${{ secrets.REDSHIFT_DB }}
+      REDSHIFT_SCHEMA: ${{ secrets.REDSHIFT_SCHEMA }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run DBT Debug
+        run: |
+          cd dbt-redhsift-demo/my_dbt_project
+          dbt debug
+
+      - name: Run DBT Models
+        run: |
+          cd dbt-redhsift-demo/my_dbt_project
+          dbt run
+
+      - name: Run DBT Tests
+        run: |
+          cd dbt-redhsift-demo/my_dbt_project
+          dbt test

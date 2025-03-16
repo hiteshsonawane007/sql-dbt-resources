@@ -1,0 +1,13 @@
+
+target/
+dbt_packages/
+logs/
+venv/
+__pycache__/
+*.pyc
+.env
+target/
+dbt_modules/
+logs/
+*.egg-info/
+.env

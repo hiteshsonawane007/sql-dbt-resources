@@ -1,0 +1,10 @@
+# DBT packages for core functionalities and AWS Redshift
+dbt-core
+dbt-redshift
+
+# Airflow (this version is a stable release; note Airflow often has many dependencies)
+apache-airflow
+
+
+# Optional: For loading local environment variables (if you choose .env approach)
+python-dotenv
